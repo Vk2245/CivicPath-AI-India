@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CivicPath — Document Validator. Validate your Voter ID or Registration Form format.">
+  <title>CivicPath — Document Checklist</title>
+  <!-- Google Fonts API (Google Service #10) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <meta name="theme-color" content="#0A0F1E">
+</head>
+<body>
+  <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
+  <header class="header" role="banner">
+    <div class="container header-inner">
+      <div class="logo" aria-label="CivicPath Home">
+        <div class="logo-icon" aria-hidden="true">🗳️</div>
+        <span>CivicPath</span>
+      </div>
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="/" class="btn btn-secondary btn-sm" aria-label="Back to Home">← Back to Home</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" role="main">
+    <section aria-label="Document Validator">
+      <div class="container" style="padding-top: 40px; max-width: 700px;">
+        <h2 style="text-align:center; margin-bottom: 8px;">📸 Document Validator</h2>
+        <p style="text-align:center; margin-bottom: 24px;">Upload your voter ID or registration form. Powered by Google Gemini Vision API.</p>
+        
+        <div class="card card-glow">
+          <div class="form-group">
+            <label class="form-label" for="doc-type">Document Type</label>
+            <select class="form-select" id="doc-type" aria-label="Select document type">
+              <option value="id_card">Voter ID Card / Driver's License</option>
+              <option value="registration_form">Voter Registration Form</option>
+              <option value="proof_of_residence">Proof of Residence (Utility Bill, etc.)</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="doc-upload">Upload Document Image</label>
+            <input type="file" class="form-input" id="doc-upload" accept="image/png, image/jpeg, image/webp" aria-label="Upload document image">
+          </div>
+          
+          <div style="margin-top: 24px; text-align: center;">
+            <button class="btn btn-primary btn-lg" onclick="validateDocument()" aria-label="Validate document">🔍 Validate Document</button>
+          </div>
+          
+          <div id="validation-result" aria-live="polite" style="margin-top: 24px;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="sidebar-tips" role="complementary" aria-label="Document Tips" style="display:none;">
+    <div class="container">
+      <h3>Document Tips</h3>
+      <p>Ensure your document is well-lit and all text is legible.</p>
+    </div>
+  </aside>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>CivicPath — because democracy deserves better UX.</p>
+      <p style="margin-top: 4px;">Non-partisan · Factual · Open source · Built for every voter.</p>
+    </div>
+  </footer>
+
+  <script>
+    async function validateDocument() {
+      const fileInput = document.getElementById('doc-upload');
+      const docType = document.getElementById('doc-type').value;
+      const resultDiv = document.getElementById('validation-result');
+      
+      if (!fileInput.files || fileInput.files.length === 0) {
+        resultDiv.innerHTML = '<div class="toast error">Please select an image file to upload.</div>';
+        return;
+      }
+      
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      
+      resultDiv.innerHTML = '<div style="text-align:center;padding:20px;"><div class="spinner" style="margin:0 auto;"></div><p style="margin-top:12px;">Validating with Google Gemini Vision API...</p></div>';
+      
+      reader.onload = async function(e) {
+        const base64Image = e.target.result;
+        
+        try {
+          const res = await fetch('/checklist/validate-doc', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              image_base64: base64Image,
+              document_type: docType
+            })
+          });
+          
+          const data = await res.json();
+          
+          if (res.ok) {
+            const statusIcon = data.is_valid ? '✅' : '⚠️';
+            const statusColor = data.is_valid ? 'var(--green)' : 'var(--amber)';
+            
+            let html = '<div style="border-left: 4px solid ' + statusColor + '; padding-left: 16px;">';
+            html += '<h3 style="color:' + statusColor + '; margin-bottom: 8px;">' + statusIcon + ' Validation Complete</h3>';
+            html += '<p><strong>Feedback:</strong> ' + data.feedback + '</p>';
+            
+            if (data.suggestions && data.suggestions.length > 0) {
+              html += '<h4 style="margin-top: 12px; margin-bottom: 8px;">Suggestions:</h4><ul style="padding-left: 20px;">';
+              data.suggestions.forEach(s => html += '<li>' + s + '</li>');
+              html += '</ul>';
+            }
+            
+            html += '<p style="margin-top:16px;font-size:0.75rem;color:var(--text-muted);">Powered by ' + (data.google_service || 'Google Gemini Vision API') + '</p>';
+            html += '</div>';
+            
+            resultDiv.innerHTML = html;
+          } else {
+            resultDiv.innerHTML = '<div class="toast error">Error: ' + (data.detail || 'Validation failed') + '</div>';
+          }
+        } catch (err) {
+          resultDiv.innerHTML = '<div class="toast error">Demo Fallback: The Gemini Vision API integration is mock-only in this frontend without backend running. In production, this validates the document.</div>';
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
