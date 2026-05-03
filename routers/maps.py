@@ -20,7 +20,7 @@ from services.maps_service import find_polling_places
 
 logger = logging.getLogger("civicpath.routers.maps")
 
-router = APIRouter(tags=["Maps"])
+router = APIRouter(prefix="/maps", tags=["Maps"])
 
 
 @router.get("/polling-places", response_model=PollingPlaceResponse)
