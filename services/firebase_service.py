@@ -11,8 +11,8 @@ chat history, and reminder subscriptions.
 """
 
 import logging
-from datetime import datetime, timezone
-from typing import Any, Optional
+from datetime import UTC, datetime
+from typing import Any
 from uuid import uuid4
 
 from config import get_settings
@@ -42,7 +42,7 @@ async def init_firebase_client() -> None:
                 firebase_admin.initialize_app(cred)
             else:
                 firebase_admin.initialize_app()  # Uses application default credentials (e.g. on Cloud Run)
-                
+
         _db = firestore.client()
         logger.info("Firebase client initialized successfully")
     except Exception as exc:
@@ -63,7 +63,7 @@ async def create_journey(journey_data: dict[str, Any]) -> dict[str, Any]:
         Created journey record with generated ID.
     """
     journey_id = str(uuid4())
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
 
     record = {
         "id": journey_id,
@@ -84,7 +84,7 @@ async def create_journey(journey_data: dict[str, Any]) -> dict[str, Any]:
     return record
 
 
-async def get_journey(journey_id: str) -> Optional[dict[str, Any]]:
+async def get_journey(journey_id: str) -> dict[str, Any] | None:
     """Retrieve a journey by ID.
 
     Args:
@@ -107,7 +107,7 @@ async def get_journey(journey_id: str) -> Optional[dict[str, Any]]:
 
 async def update_journey_step(
     journey_id: str, step_number: int, status: str
-) -> Optional[dict[str, Any]]:
+) -> dict[str, Any] | None:
     """Update a journey step's status.
 
     Args:
@@ -118,7 +118,7 @@ async def update_journey_step(
     Returns:
         Updated journey record.
     """
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
 
     if _db:
         try:
@@ -138,9 +138,7 @@ async def update_journey_step(
     return None
 
 
-async def save_chat_message(
-    journey_id: Optional[str], role: str, content: str
-) -> dict[str, Any]:
+async def save_chat_message(journey_id: str | None, role: str, content: str) -> dict[str, Any]:
     """Save a chat message to the database.
 
     Args:
@@ -157,7 +155,7 @@ async def save_chat_message(
         "journey_id": journey_id,
         "role": role,
         "content": content,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
     }
 
     if _db:
@@ -182,7 +180,7 @@ async def create_reminder(reminder_data: dict[str, Any]) -> dict[str, Any]:
     record = {
         "id": reminder_id,
         **reminder_data,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
     }
 
     if _db:

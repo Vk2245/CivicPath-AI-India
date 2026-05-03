@@ -24,7 +24,7 @@ GOOGLE API CALLS IN THIS MODULE:
 
 import base64
 import logging
-from typing import Any, Optional
+from typing import Any
 
 import google.generativeai as genai  # Google Gemini SDK
 
@@ -46,11 +46,11 @@ logger = logging.getLogger("civicpath.gemini")
 # Docs: https://ai.google.dev/docs
 
 # Google Gemini models — initialized once in app lifespan
-_chat_model: Optional[genai.GenerativeModel] = None
-_vision_model: Optional[genai.GenerativeModel] = None
+_chat_model: genai.GenerativeModel | None = None
+_vision_model: genai.GenerativeModel | None = None
 
 # Election assistant system prompt
-ELECTION_SYSTEM_PROMPT = """You are CivicPath's AI Election Assistant — a non-partisan, 
+ELECTION_SYSTEM_PROMPT = """You are CivicPath's AI Election Assistant — a non-partisan,
 fact-based guide that helps Indian voters understand the election process.
 
 RULES:
@@ -62,10 +62,10 @@ RULES:
 6. Keep responses concise but comprehensive
 7. Always mention relevant deadlines (e.g., Form 6 submission deadlines) when applicable
 
-You help with: voter registration (Form 6), EPIC/Voter ID requirements, polling booths, 
+You help with: voter registration (Form 6), EPIC/Voter ID requirements, polling booths,
 EVM/VVPAT procedures, candidate research (KYC App), and myth-busting."""
 
-MYTH_SYSTEM_PROMPT = """You are CivicPath's Myth Detector — an AI that fact-checks 
+MYTH_SYSTEM_PROMPT = """You are CivicPath's Myth Detector — an AI that fact-checks
 election-related claims.
 
 For each claim, respond with EXACTLY this JSON format:
@@ -110,6 +110,7 @@ async def init_gemini_client() -> None:
 
     try:
         import random
+
         selected_key = random.choice(keys)
         # [GOOGLE SERVICE: Gemini API] — configure SDK with API key
         genai.configure(api_key=selected_key)
@@ -142,14 +143,12 @@ async def init_gemini_client() -> None:
             "Failed to initialize Google Gemini clients",
             extra={"error": str(exc), "google_service": "Google Gemini API"},
         )
-        raise GeminiServiceError(
-            message="Failed to initialize Gemini", detail=str(exc)
-        ) from exc
+        raise GeminiServiceError(message="Failed to initialize Gemini", detail=str(exc)) from exc
 
 
 async def generate_chat_response(
     message: str,
-    journey_context: Optional[dict[str, Any]] = None,
+    journey_context: dict[str, Any] | None = None,
     language: str = "en",
 ) -> dict[str, Any]:
     """Generate AI response to an election question using Google Gemini 1.5 Flash.
@@ -209,7 +208,8 @@ async def generate_chat_response(
         }
     except Exception as exc:
         logger.error(
-            "Google Gemini 1.5 Flash API call failed: %s", str(exc),
+            "Google Gemini 1.5 Flash API call failed: %s",
+            str(exc),
             extra={"error": str(exc), "google_service": "Gemini 1.5 Flash"},
         )
         return DEMO_DATA["gemini_chat"]
@@ -264,11 +264,12 @@ async def detect_myth(text: str) -> dict[str, Any]:
 
         import json
         import re
+
         try:
             # Clean markdown code blocks from Gemini 2.5 Flash response
-            cleaned_text = re.sub(r'```(?:json)?\s*', '', response.text)
-            cleaned_text = re.sub(r'\s*```', '', cleaned_text).strip()
-            
+            cleaned_text = re.sub(r"```(?:json)?\s*", "", response.text)
+            cleaned_text = re.sub(r"\s*```", "", cleaned_text).strip()
+
             result = json.loads(cleaned_text)
             return {
                 "verdict": result.get("verdict", "UNVERIFIABLE").lower(),
@@ -291,9 +292,7 @@ async def detect_myth(text: str) -> dict[str, Any]:
         return DEMO_DATA["gemini_myth"]
 
 
-async def validate_document(
-    image_base64: str, document_type: str = "voter_id"
-) -> dict[str, Any]:
+async def validate_document(image_base64: str, document_type: str = "voter_id") -> dict[str, Any]:
     """Validate a voter document image using Google Gemini Vision API.
 
     Integrates Google Gemini Vision API to analyze uploaded voter ID or
@@ -329,7 +328,7 @@ async def validate_document(
             f"Analyze this {document_type} image for voter identification purposes. "
             "Check: 1) Is it a valid document format? 2) Is the text readable? "
             "3) Does it appear current/not expired? "
-            "Respond with JSON: {\"is_valid\": bool, \"feedback\": str, \"suggestions\": [str]}"
+            'Respond with JSON: {"is_valid": bool, "feedback": str, "suggestions": [str]}'
         )
 
         # [GOOGLE SERVICE: Gemini Vision] — document image validation
@@ -342,9 +341,10 @@ async def validate_document(
 
         import json
         import re
+
         try:
-            cleaned_text = re.sub(r'```(?:json)?\s*', '', response.text)
-            cleaned_text = re.sub(r'\s*```', '', cleaned_text).strip()
+            cleaned_text = re.sub(r"```(?:json)?\s*", "", response.text)
+            cleaned_text = re.sub(r"\s*```", "", cleaned_text).strip()
             result = json.loads(cleaned_text)
             return result
         except json.JSONDecodeError:
@@ -453,9 +453,10 @@ async def generate_journey_steps(
 
         import json
         import re
+
         try:
-            cleaned_text = re.sub(r'```(?:json)?\s*', '', response.text)
-            cleaned_text = re.sub(r'\s*```', '', cleaned_text).strip()
+            cleaned_text = re.sub(r"```(?:json)?\s*", "", response.text)
+            cleaned_text = re.sub(r"\s*```", "", cleaned_text).strip()
             steps = json.loads(cleaned_text)
             if isinstance(steps, list):
                 for step in steps:

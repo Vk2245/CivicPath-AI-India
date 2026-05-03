@@ -13,7 +13,6 @@ GOOGLE API CALLS VIA THIS ROUTER:
 """
 
 import logging
-from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request
@@ -22,9 +21,8 @@ from starlette.status import HTTP_404_NOT_FOUND
 from config import RATE_LIMIT_JOURNEY_START
 from limiting import limiter
 from models import JourneyResponse, JourneyStartRequest, StepUpdateRequest
-from services import journey_engine, firebase_service
+from services import firebase_service, journey_engine
 from services.analytics_service import track_event
-from services.gemini_service import generate_journey_steps
 
 logger = logging.getLogger("civicpath.routers.journey")
 
@@ -64,20 +62,25 @@ async def start_journey(request: Request, body: JourneyStartRequest) -> dict[str
     )
 
     # Save journey to database
-    journey = await firebase_service.create_journey({
-        "state": body.state,
-        "is_registered": body.is_registered,
-        "is_first_time": body.is_first_time,
-        "election_type": body.election_type.value,
-        "language": body.language,
-        "steps": steps,
-    })
+    journey = await firebase_service.create_journey(
+        {
+            "state": body.state,
+            "is_registered": body.is_registered,
+            "is_first_time": body.is_first_time,
+            "election_type": body.election_type.value,
+            "language": body.language,
+            "steps": steps,
+        }
+    )
 
     # [GOOGLE SERVICE: GA4] — track journey_started event
-    await track_event("journey_started", {
-        "state": body.state,
-        "election_type": body.election_type.value,
-    })
+    await track_event(
+        "journey_started",
+        {
+            "state": body.state,
+            "election_type": body.election_type.value,
+        },
+    )
 
     return {
         "journey_id": journey["id"],
@@ -110,9 +113,7 @@ async def get_journey(journey_id: str) -> dict[str, Any]:
 
 
 @router.put("/{journey_id}/step")
-async def update_step(
-    request: Request, journey_id: str, body: StepUpdateRequest
-) -> dict[str, Any]:
+async def update_step(request: Request, journey_id: str, body: StepUpdateRequest) -> dict[str, Any]:
     """Update a journey step's completion status.
 
     Google Service: Google Analytics 4 (step completion tracking)
@@ -133,10 +134,18 @@ async def update_step(
         raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="Journey not found")
 
     # [GOOGLE SERVICE: GA4] — track step_completed event
-    await track_event("step_completed", {
-        "journey_id": journey_id,
-        "step_number": body.step_number,
-        "status": body.status.value,
-    })
+    await track_event(
+        "step_completed",
+        {
+            "journey_id": journey_id,
+            "step_number": body.step_number,
+            "status": body.status.value,
+        },
+    )
 
-    return {"success": True, "journey_id": journey_id, "step": body.step_number, "status": body.status.value}
+    return {
+        "success": True,
+        "journey_id": journey_id,
+        "step": body.step_number,
+        "status": body.status.value,
+    }

@@ -35,7 +35,7 @@ class TestGoogleServicesEndpoint:
 
     def test_each_service_has_required_fields(self, client):
         response = client.get("/google-services")
-        for key, svc in response.json()["services"].items():
+        for _key, svc in response.json()["services"].items():
             assert "name" in svc
             assert "purpose" in svc
             assert "sdk_package" in svc

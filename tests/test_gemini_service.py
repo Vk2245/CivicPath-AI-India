@@ -1,8 +1,10 @@
 """test_gemini_service.py — Google Gemini service tests (Services 1-3)."""
 
+from unittest.mock import patch
+
 import pytest
-from unittest.mock import patch, AsyncMock, MagicMock
-from services.gemini_service import generate_chat_response, detect_myth, generate_embedding
+
+from services.gemini_service import detect_myth, generate_chat_response, generate_embedding
 
 
 class TestGeminiChat:

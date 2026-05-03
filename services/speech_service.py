@@ -19,11 +19,10 @@ GOOGLE API CALLS IN THIS MODULE:
 
 import base64
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from config import get_settings
 from demo_data import DEMO_DATA
-from exceptions import SpeechServiceError
 
 logger = logging.getLogger("civicpath.speech")
 
@@ -60,10 +59,12 @@ async def init_speech_clients() -> None:
     try:
         # [GOOGLE SERVICE: Cloud Speech-to-Text] — client initialization
         from google.cloud import speech
+
         _stt_client = speech.SpeechClient()
 
         # [GOOGLE SERVICE: Cloud Text-to-Speech] — client initialization
         from google.cloud import texttospeech
+
         _tts_client = texttospeech.TextToSpeechClient()
 
         logger.info(

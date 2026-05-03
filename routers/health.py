@@ -9,7 +9,7 @@ ENDPOINTS:
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from fastapi import APIRouter
@@ -39,7 +39,7 @@ async def health_check() -> dict[str, Any]:
         "version": settings.APP_VERSION,
         "google_services_count": GOOGLE_SERVICES_COUNT,
         "environment": settings.ENVIRONMENT,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }
 
 

@@ -16,14 +16,20 @@ GOOGLE API CALLS VIA THIS ROUTER:
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Request, UploadFile, File
+from fastapi import APIRouter, File, Request, UploadFile
 
 from config import RATE_LIMIT_CHAT, RATE_LIMIT_VOICE
 from limiting import limiter
-from models import ChatRequest, ChatResponse, MythCheckRequest, MythCheckResponse, VoiceInputResponse
+from models import (
+    ChatRequest,
+    ChatResponse,
+    MythCheckRequest,
+    MythCheckResponse,
+    VoiceInputResponse,
+)
+from services import firebase_service
 from services.gemini_service import detect_myth, generate_chat_response
 from services.speech_service import synthesize_speech, transcribe_audio
-from services import firebase_service
 
 logger = logging.getLogger("civicpath.routers.chat")
 
@@ -121,7 +127,10 @@ async def voice_input(request: Request, audio: UploadFile = File(...)) -> dict[s
     Returns:
         Transcript, AI response, and TTS audio URL.
     """
-    logger.info("Processing voice input pipeline", extra={"google_service": "Cloud STT + Gemini + Cloud TTS"})
+    logger.info(
+        "Processing voice input pipeline",
+        extra={"google_service": "Cloud STT + Gemini + Cloud TTS"},
+    )
 
     # Step 1: [GOOGLE SERVICE: Cloud Speech-to-Text] — transcribe
     audio_bytes = await audio.read()

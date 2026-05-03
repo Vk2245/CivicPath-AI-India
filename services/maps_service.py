@@ -16,11 +16,10 @@ GOOGLE API CALLS IN THIS MODULE:
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from config import MAPS_MAX_RESULTS, MAPS_SEARCH_RADIUS_METERS, get_settings
 from demo_data import DEMO_DATA
-from exceptions import MapsError
 
 logger = logging.getLogger("civicpath.maps")
 
@@ -65,9 +64,9 @@ async def init_maps_client() -> None:
 
 
 async def find_polling_places(
-    latitude: Optional[float] = None,
-    longitude: Optional[float] = None,
-    address: Optional[str] = None,
+    latitude: float | None = None,
+    longitude: float | None = None,
+    address: str | None = None,
 ) -> list[dict[str, Any]]:
     """Find nearby polling places using Google Maps Places API.
 
@@ -121,15 +120,17 @@ async def find_polling_places(
         places = []
         for place in result.get("results", [])[:MAPS_MAX_RESULTS]:
             loc = place["geometry"]["location"]
-            places.append({
-                "name": place.get("name", "Polling Place"),
-                "address": place.get("vicinity", "Address not available"),
-                "latitude": loc["lat"],
-                "longitude": loc["lng"],
-                "distance_miles": None,
-                "hours": place.get("opening_hours", {}).get("weekday_text", [None])[0],
-                "place_id": place.get("place_id"),
-            })
+            places.append(
+                {
+                    "name": place.get("name", "Polling Place"),
+                    "address": place.get("vicinity", "Address not available"),
+                    "latitude": loc["lat"],
+                    "longitude": loc["lng"],
+                    "distance_miles": None,
+                    "hours": place.get("opening_hours", {}).get("weekday_text", [None])[0],
+                    "place_id": place.get("place_id"),
+                }
+            )
 
         logger.info(
             "Google Maps Places call succeeded",

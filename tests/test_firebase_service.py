@@ -1,6 +1,7 @@
 """test_firebase_service.py — Database operation tests."""
 
 import pytest
+
 from services.firebase_service import create_journey, get_journey, update_journey_step
 
 

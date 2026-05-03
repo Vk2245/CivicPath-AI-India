@@ -1,7 +1,9 @@
 """test_translate_service.py — Google Cloud Translation tests (Service 6)."""
 
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from services.translate_service import translate_text
 
 

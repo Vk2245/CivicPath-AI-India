@@ -1,8 +1,10 @@
 """test_speech_service.py — Google Cloud Speech tests (Services 4-5)."""
 
-import pytest
 from unittest.mock import patch
-from services.speech_service import transcribe_audio, synthesize_speech
+
+import pytest
+
+from services.speech_service import synthesize_speech, transcribe_audio
 
 
 class TestTranscribeAudio:

@@ -17,11 +17,9 @@ GOOGLE API CALLS IN THIS MODULE:
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from config import SUPPORTED_LANGUAGES, get_settings
-from demo_data import DEMO_DATA
-from exceptions import TranslationError
 
 logger = logging.getLogger("civicpath.translate")
 
@@ -51,6 +49,7 @@ async def init_translate_client() -> None:
     try:
         # [GOOGLE SERVICE: Cloud Translation] — client initialization
         from google.cloud import translate_v2 as translate
+
         _translate_client = translate.Client()
 
         logger.info(
@@ -67,7 +66,7 @@ async def init_translate_client() -> None:
 async def translate_text(
     text: str,
     target_language: str,
-    source_language: Optional[str] = None,
+    source_language: str | None = None,
 ) -> dict[str, Any]:
     """Translate text using Google Cloud Translation API.
 

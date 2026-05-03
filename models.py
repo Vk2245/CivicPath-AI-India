@@ -15,10 +15,7 @@ GOOGLE API CALLS IN THIS MODULE:
 """
 
 import re
-from datetime import datetime
-from enum import Enum
-from typing import Optional
-from uuid import UUID
+from enum import StrEnum
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -29,7 +26,6 @@ from config import (
     MAX_NAME_LENGTH,
     MAX_STATE_LENGTH,
 )
-
 
 # ═══ SANITIZATION UTILITIES ═══
 
@@ -49,7 +45,7 @@ def strip_html_tags(value: str) -> str:
 # ═══ ENUMS ═══
 
 
-class ElectionType(str, Enum):
+class ElectionType(StrEnum):
     """Supported election types for journey personalization."""
 
     GENERAL = "general"
@@ -59,7 +55,7 @@ class ElectionType(str, Enum):
     SPECIAL = "special"
 
 
-class StepStatus(str, Enum):
+class StepStatus(StrEnum):
     """Status values for journey timeline steps."""
 
     PENDING = "pending"
@@ -68,7 +64,7 @@ class StepStatus(str, Enum):
     SKIPPED = "skipped"
 
 
-class MythVerdict(str, Enum):
+class MythVerdict(StrEnum):
     """Verdict categories for the myth detector."""
 
     MYTH = "myth"
@@ -140,7 +136,7 @@ class JourneyStep(BaseModel):
     step_number: int = Field(..., ge=1, le=12, description="Step position in timeline")
     title: str = Field(..., min_length=1, max_length=200, description="Step title")
     description: str = Field(..., min_length=1, max_length=2000, description="Step details")
-    deadline: Optional[str] = Field(None, description="Deadline date string")
+    deadline: str | None = Field(None, description="Deadline date string")
     status: StepStatus = Field(default=StepStatus.PENDING, description="Step status")
     is_critical: bool = Field(default=False, description="Whether step is blocking")
     category: str = Field(default="preparation", description="Step category")
@@ -198,7 +194,7 @@ class ChatRequest(BaseModel):
         max_length=MAX_CHAT_MESSAGE_LENGTH,
         description="User message to AI assistant",
     )
-    journey_id: Optional[str] = Field(None, description="Associated journey ID")
+    journey_id: str | None = Field(None, description="Associated journey ID")
     language: str = Field(default="en", max_length=5, description="Response language")
 
     @field_validator("message")
@@ -286,7 +282,7 @@ class VoiceInputResponse(BaseModel):
 
     transcript: str = Field(..., description="Speech-to-text transcript")
     ai_response: str = Field(..., description="AI response to transcript")
-    audio_url: Optional[str] = Field(None, description="TTS audio URL")
+    audio_url: str | None = Field(None, description="TTS audio URL")
     google_services: list[str] = Field(
         default_factory=lambda: [
             "Google Cloud Speech-to-Text API",
@@ -363,7 +359,7 @@ class TranslateRequest(BaseModel):
         max_length=5,
         description="Target language code",
     )
-    source_language: Optional[str] = Field(
+    source_language: str | None = Field(
         None,
         max_length=5,
         description="Source language code (auto-detect if omitted)",
@@ -454,9 +450,9 @@ class PollingPlaceRequest(BaseModel):
         address: Optional address for geocoding.
     """
 
-    latitude: Optional[float] = Field(None, ge=-90, le=90, description="Latitude")
-    longitude: Optional[float] = Field(None, ge=-180, le=180, description="Longitude")
-    address: Optional[str] = Field(
+    latitude: float | None = Field(None, ge=-90, le=90, description="Latitude")
+    longitude: float | None = Field(None, ge=-180, le=180, description="Longitude")
+    address: str | None = Field(
         None,
         max_length=500,
         description="Address to geocode",
@@ -480,9 +476,9 @@ class PollingPlace(BaseModel):
     address: str = Field(..., description="Full address")
     latitude: float = Field(..., description="Latitude")
     longitude: float = Field(..., description="Longitude")
-    distance_miles: Optional[float] = Field(None, description="Distance in miles")
-    hours: Optional[str] = Field(None, description="Operating hours")
-    place_id: Optional[str] = Field(None, description="Google Places ID")
+    distance_miles: float | None = Field(None, description="Distance in miles")
+    hours: str | None = Field(None, description="Operating hours")
+    place_id: str | None = Field(None, description="Google Places ID")
 
 
 class PollingPlaceResponse(BaseModel):
@@ -525,7 +521,7 @@ class ReminderSubscribeRequest(BaseModel):
         max_length=MAX_NAME_LENGTH,
         description="Subscriber name",
     )
-    journey_id: Optional[str] = Field(None, description="Associated journey ID")
+    journey_id: str | None = Field(None, description="Associated journey ID")
     recaptcha_token: str = Field(
         ...,
         min_length=10,

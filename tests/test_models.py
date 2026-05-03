@@ -1,9 +1,14 @@
 """test_models.py — Pydantic model validation tests."""
 
 import pytest
+
 from models import (
-    ChatRequest, JourneyStartRequest, MythCheckRequest,
-    ReminderSubscribeRequest, TranslateRequest, strip_html_tags,
+    ChatRequest,
+    JourneyStartRequest,
+    MythCheckRequest,
+    ReminderSubscribeRequest,
+    TranslateRequest,
+    strip_html_tags,
 )
 
 
@@ -65,9 +70,7 @@ class TestReminderSubscribeRequest:
 
     def test_invalid_email(self):
         with pytest.raises(Exception):
-            ReminderSubscribeRequest(
-                email="notanemail", name="John", recaptcha_token="a" * 20
-            )
+            ReminderSubscribeRequest(email="notanemail", name="John", recaptcha_token="a" * 20)
 
 
 class TestTranslateRequest:

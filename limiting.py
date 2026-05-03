@@ -11,7 +11,6 @@ Process Education platform's AI-powered endpoints.
 """
 
 from starlette.requests import Request
-from slowapi import Limiter
 
 
 def _get_real_client_ip(request: Request) -> str:
@@ -32,6 +31,8 @@ class DummyLimiter:
     def limit(self, *args, **kwargs):
         def decorator(func):
             return func
+
         return decorator
+
 
 limiter = DummyLimiter()

@@ -16,13 +16,12 @@ GOOGLE API CALLS IN THIS MODULE:
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 
 from config import GA4_COLLECT_URL, get_settings
 from demo_data import DEMO_DATA
-from exceptions import AnalyticsError
 
 logger = logging.getLogger("civicpath.analytics")
 
@@ -48,7 +47,7 @@ async def init_analytics_client(http_client: httpx.AsyncClient) -> None:
 
 async def track_event(
     event_name: str,
-    params: Optional[dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
     client_id: str = "server",
 ) -> dict[str, Any]:
     """Track a server-side event via GA4 Measurement Protocol.
@@ -96,7 +95,7 @@ async def track_event(
         }
 
         # [GOOGLE SERVICE: GA4 Measurement Protocol] — track civic engagement event
-        response = await _http_client.post(
+        await _http_client.post(
             GA4_COLLECT_URL,
             params={
                 "measurement_id": settings.GA4_MEASUREMENT_ID,

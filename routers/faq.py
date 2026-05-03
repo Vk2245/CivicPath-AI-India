@@ -16,8 +16,8 @@ from fastapi import APIRouter, Query, Request
 from config import RATE_LIMIT_FAQ
 from limiting import limiter
 from models import FAQSearchResponse
-from services.gemini_service import generate_embedding
 from services.firebase_service import search_faq_embeddings
+from services.gemini_service import generate_embedding
 
 logger = logging.getLogger("civicpath.routers.faq")
 

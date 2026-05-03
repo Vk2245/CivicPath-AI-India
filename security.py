@@ -14,7 +14,6 @@ user trust through defense-in-depth HTTP security headers.
 
 import logging
 import re
-from typing import Any
 
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
@@ -38,9 +37,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     This middleware runs on every response, including error responses.
     """
 
-    async def dispatch(
-        self, request: Request, call_next: RequestResponseEndpoint
-    ) -> Response:
+    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         """Add security headers to every response.
 
         Args:
@@ -82,8 +79,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
         # Security Header 7: Permissions-Policy
         response.headers["Permissions-Policy"] = (
-            "camera=(), microphone=(self), geolocation=(self), "
-            "payment=(), usb=(), magnetometer=()"
+            "camera=(), microphone=(self), geolocation=(self), payment=(), usb=(), magnetometer=()"
         )
 
         return response
@@ -121,7 +117,5 @@ def validate_content_length(content: bytes, max_bytes: int = 10_485_760) -> bool
         ValueError: If content exceeds maximum size.
     """
     if len(content) > max_bytes:
-        raise ValueError(
-            f"Content size {len(content)} exceeds maximum {max_bytes} bytes"
-        )
+        raise ValueError(f"Content size {len(content)} exceeds maximum {max_bytes} bytes")
     return True

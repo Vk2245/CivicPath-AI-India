@@ -4,8 +4,9 @@ conftest.py — CivicPath Test Configuration
 Fixtures: All 10 Google Services mocked for isolated testing.
 """
 
-import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
 from fastapi.testclient import TestClient
 
 from main import app
@@ -20,8 +21,10 @@ def client():
 @pytest.fixture
 def mock_gemini():
     """Mock Google Gemini 1.5 Flash + Vision + Embeddings (Services 1-3)."""
-    with patch("services.gemini_service._chat_model") as mock_chat, \
-         patch("services.gemini_service._vision_model") as mock_vision:
+    with (
+        patch("services.gemini_service._chat_model") as mock_chat,
+        patch("services.gemini_service._vision_model") as mock_vision,
+    ):
         mock_response = MagicMock()
         mock_response.text = '{"verdict":"fact","explanation":"This is accurate.","confidence":0.9,"sources":["vote.gov"]}'
         mock_chat.generate_content_async = AsyncMock(return_value=mock_response)
@@ -32,8 +35,10 @@ def mock_gemini():
 @pytest.fixture
 def mock_speech():
     """Mock Google Cloud Speech-to-Text + Text-to-Speech (Services 4-5)."""
-    with patch("services.speech_service._stt_client") as stt, \
-         patch("services.speech_service._tts_client") as tts:
+    with (
+        patch("services.speech_service._stt_client") as stt,
+        patch("services.speech_service._tts_client") as tts,
+    ):
         yield {"stt": stt, "tts": tts}
 
 

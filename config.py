@@ -153,7 +153,18 @@ GEMINI_MYTH_TEMPERATURE: Final[float] = 0.2
 
 # Supported languages for Google Cloud Translation
 SUPPORTED_LANGUAGES: Final[list[str]] = [
-    "en", "hi", "bn", "ta", "te", "mr", "gu", "kn", "ml", "pa", "or", "ur",
+    "en",
+    "hi",
+    "bn",
+    "ta",
+    "te",
+    "mr",
+    "gu",
+    "kn",
+    "ml",
+    "pa",
+    "or",
+    "ur",
 ]
 
 # reCAPTCHA

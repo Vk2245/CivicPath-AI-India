@@ -47,11 +47,13 @@ async def subscribe(request: Request, body: ReminderSubscribeRequest) -> dict[st
     await verify_recaptcha(body.recaptcha_token)
 
     # Save reminder subscription
-    await firebase_service.create_reminder({
-        "email": body.email,
-        "name": body.name,
-        "journey_id": body.journey_id,
-    })
+    await firebase_service.create_reminder(
+        {
+            "email": body.email,
+            "name": body.name,
+            "journey_id": body.journey_id,
+        }
+    )
 
     # Send confirmation email
     await send_reminder_email(body.email, body.name, body.journey_id)

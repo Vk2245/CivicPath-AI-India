@@ -9,7 +9,7 @@ GOOGLE API CALLS VIA THIS ROUTER:
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from fastapi import APIRouter, Query, Request
 
@@ -27,9 +27,9 @@ router = APIRouter(prefix="/maps", tags=["Maps"])
 @limiter.limit(RATE_LIMIT_MAPS)
 async def get_polling_places(
     request: Request,
-    latitude: Optional[float] = Query(None, ge=-90, le=90),
-    longitude: Optional[float] = Query(None, ge=-180, le=180),
-    address: Optional[str] = Query(None, max_length=500),
+    latitude: float | None = Query(None, ge=-90, le=90),
+    longitude: float | None = Query(None, ge=-180, le=180),
+    address: str | None = Query(None, max_length=500),
 ) -> dict[str, Any]:
     """Find nearby polling places using Google Maps Places API.
 

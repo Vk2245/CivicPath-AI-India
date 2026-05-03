@@ -11,12 +11,11 @@ election preparation steps on time.
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 
 from config import get_settings
-from exceptions import ReminderError
 
 logger = logging.getLogger("civicpath.reminder")
 
@@ -31,7 +30,7 @@ async def init_reminder_client(http_client: httpx.AsyncClient) -> None:
 
 
 async def send_reminder_email(
-    email: str, name: str, journey_id: Optional[str] = None
+    email: str, name: str, journey_id: str | None = None
 ) -> dict[str, Any]:
     """Send a deadline reminder subscription confirmation.
 

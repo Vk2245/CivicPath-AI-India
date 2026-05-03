@@ -1,7 +1,7 @@
 """test_security.py — Security middleware and sanitization tests."""
 
-from tests.conftest import *
 from security import sanitize_input, validate_content_length
+from tests.conftest import *
 
 
 class TestSecurityHeaders:
@@ -50,5 +50,6 @@ class TestContentLength:
 
     def test_oversized_content(self):
         import pytest
+
         with pytest.raises(ValueError):
             validate_content_length(b"x" * 20_000_000)

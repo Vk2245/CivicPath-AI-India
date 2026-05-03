@@ -38,8 +38,8 @@ DEPLOYMENT:
 
 import logging
 import os
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 import httpx
 import uvicorn
@@ -50,19 +50,19 @@ from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
-from config import STATIC_CACHE_MAX_AGE, get_settings, clear_settings_cache
+from config import clear_settings_cache, get_settings
 from exceptions import CivicPathError
 from limiting import limiter
 from routers import chat, checklist, faq, health, journey, maps, reminders, translate
 from security import SecurityHeadersMiddleware
 from services.analytics_service import init_analytics_client
+from services.firebase_service import init_firebase_client
 from services.gemini_service import init_gemini_client
 from services.maps_service import init_maps_client
 from services.recaptcha_service import init_recaptcha_client
-from services.speech_service import init_speech_clients
-from services.firebase_service import init_firebase_client
-from services.translate_service import init_translate_client
 from services.reminder_service import init_reminder_client
+from services.speech_service import init_speech_clients
+from services.translate_service import init_translate_client
 
 # ═══ LOGGING CONFIGURATION ═══
 logging.basicConfig(
@@ -110,10 +110,10 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     http_client = httpx.AsyncClient(timeout=30.0)
 
     # Initialize all Google Services
-    await init_gemini_client()        # Services 1, 2, 3
-    await init_speech_clients()       # Services 4, 5
-    await init_translate_client()     # Service 6
-    await init_maps_client()          # Service 7
+    await init_gemini_client()  # Services 1, 2, 3
+    await init_speech_clients()  # Services 4, 5
+    await init_translate_client()  # Service 6
+    await init_maps_client()  # Service 7
     await init_recaptcha_client(http_client)  # Service 8
     await init_analytics_client(http_client)  # Service 9
     # Service 10 (Google Fonts) loaded via CDN in static/index.html
@@ -213,4 +213,3 @@ if __name__ == "__main__":
         reload=settings.ENVIRONMENT == "development",
     )
     # Server reload triggered at 2026-05-03T08:35 after pip install of googlemaps, speech, translate
-
