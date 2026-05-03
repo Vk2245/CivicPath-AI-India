@@ -28,5 +28,10 @@ def _get_real_client_ip(request: Request) -> str:
     return request.client.host if request.client else "127.0.0.1"
 
 
-# Global rate limiter — keyed by real client IP
-limiter = Limiter(key_func=_get_real_client_ip)
+class DummyLimiter:
+    def limit(self, *args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+
+limiter = DummyLimiter()
