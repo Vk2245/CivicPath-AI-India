@@ -318,7 +318,7 @@ async function findPollingPlaces() {
   const resultsDiv = document.getElementById('polling-results');
   resultsDiv.innerHTML = '<div style="text-align:center;padding:20px;"><div class="spinner" style="margin:0 auto;"></div></div>';
   try {
-    const res = await fetch(API_BASE + '/polling-places?address=' + encodeURIComponent(address));
+    const res = await fetch(API_BASE + '/maps/polling-places?address=' + encodeURIComponent(address));
     const data = await res.json();
     const places = data.places || [];
     resultsDiv.innerHTML = places.map(p =>
@@ -340,7 +340,7 @@ function useMyLocation() {
     const resultsDiv = document.getElementById('polling-results');
     resultsDiv.innerHTML = '<div style="text-align:center;padding:20px;"><div class="spinner" style="margin:0 auto;"></div></div>';
     try {
-      const res = await fetch(API_BASE + '/polling-places?latitude=' + pos.coords.latitude + '&longitude=' + pos.coords.longitude);
+      const res = await fetch(API_BASE + '/maps/polling-places?latitude=' + pos.coords.latitude + '&longitude=' + pos.coords.longitude);
       const data = await res.json();
       const places = data.places || [];
       resultsDiv.innerHTML = places.map(p =>
