@@ -263,8 +263,13 @@ async def detect_myth(text: str) -> dict[str, Any]:
         )
 
         import json
+        import re
         try:
-            result = json.loads(response.text)
+            # Clean markdown code blocks from Gemini 2.5 Flash response
+            cleaned_text = re.sub(r'```(?:json)?\s*', '', response.text)
+            cleaned_text = re.sub(r'\s*```', '', cleaned_text).strip()
+            
+            result = json.loads(cleaned_text)
             return {
                 "verdict": result.get("verdict", "UNVERIFIABLE").lower(),
                 "explanation": result.get("explanation", response.text),
@@ -336,8 +341,11 @@ async def validate_document(
         )
 
         import json
+        import re
         try:
-            result = json.loads(response.text)
+            cleaned_text = re.sub(r'```(?:json)?\s*', '', response.text)
+            cleaned_text = re.sub(r'\s*```', '', cleaned_text).strip()
+            result = json.loads(cleaned_text)
             return result
         except json.JSONDecodeError:
             return {
@@ -444,8 +452,11 @@ async def generate_journey_steps(
         response = await _chat_model.generate_content_async(prompt)
 
         import json
+        import re
         try:
-            steps = json.loads(response.text)
+            cleaned_text = re.sub(r'```(?:json)?\s*', '', response.text)
+            cleaned_text = re.sub(r'\s*```', '', cleaned_text).strip()
+            steps = json.loads(cleaned_text)
             if isinstance(steps, list):
                 for step in steps:
                     step.setdefault("status", "pending")
