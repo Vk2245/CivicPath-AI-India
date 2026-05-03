@@ -145,7 +145,7 @@ MAX_EMAIL_LENGTH: Final[int] = 254
 MIN_RECAPTCHA_SCORE: Final[float] = 0.5
 
 # Gemini model configuration
-GEMINI_MODEL_NAME: Final[str] = "gemini-1.5-flash"
+GEMINI_MODEL_NAME: Final[str] = "gemini-2.5-flash"
 GEMINI_EMBEDDING_MODEL: Final[str] = "models/embedding-001"
 GEMINI_MAX_OUTPUT_TOKENS: Final[int] = 1024
 GEMINI_TEMPERATURE: Final[float] = 0.7
