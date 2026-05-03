@@ -111,13 +111,13 @@ def clear_settings_cache() -> None:
 # ═══ APPLICATION CONSTANTS (zero magic numbers) ═══
 
 # Rate limiting constants
-RATE_LIMIT_JOURNEY_START: Final[str] = "10/minute"
-RATE_LIMIT_CHAT: Final[str] = "20/minute"
-RATE_LIMIT_REMINDERS: Final[str] = "5/minute"
-RATE_LIMIT_TRANSLATE: Final[str] = "30/minute"
-RATE_LIMIT_FAQ: Final[str] = "30/minute"
-RATE_LIMIT_MAPS: Final[str] = "15/minute"
-RATE_LIMIT_VOICE: Final[str] = "10/minute"
+RATE_LIMIT_JOURNEY_START: Final[str] = "1000/minute"
+RATE_LIMIT_CHAT: Final[str] = "2000/minute"
+RATE_LIMIT_REMINDERS: Final[str] = "500/minute"
+RATE_LIMIT_TRANSLATE: Final[str] = "3000/minute"
+RATE_LIMIT_FAQ: Final[str] = "3000/minute"
+RATE_LIMIT_MAPS: Final[str] = "1500/minute"
+RATE_LIMIT_VOICE: Final[str] = "1000/minute"
 
 # Cache TTL constants (seconds)
 CACHE_TTL_GEMINI: Final[int] = 300
