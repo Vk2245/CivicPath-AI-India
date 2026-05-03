@@ -1,6 +1,6 @@
 """test_integration.py — Full user journey integration test."""
 
-from tests.conftest import *
+
 
 
 class TestFullUserJourney:

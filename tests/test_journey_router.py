@@ -1,6 +1,6 @@
 """test_journey_router.py — Journey endpoint tests."""
 
-from tests.conftest import *
+
 
 
 class TestJourneyStart:

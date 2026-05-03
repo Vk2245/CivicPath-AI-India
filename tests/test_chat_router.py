@@ -1,6 +1,6 @@
 """test_chat_router.py — Chat and Myth Detection endpoint tests."""
 
-from tests.conftest import *
+
 
 
 class TestChatEndpoint:

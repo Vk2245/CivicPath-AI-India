@@ -1,6 +1,6 @@
 """test_health_router.py — Health and Google Services endpoint tests."""
 
-from tests.conftest import *
+
 
 
 class TestHealthEndpoint:

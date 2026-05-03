@@ -1,6 +1,6 @@
 """test_reminder_router.py — Reminder subscription endpoint tests."""
 
-from tests.conftest import *
+
 
 
 class TestReminderSubscribe:

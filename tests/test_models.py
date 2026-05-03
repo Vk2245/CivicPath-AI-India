@@ -33,7 +33,7 @@ class TestJourneyStartRequest:
         assert "<script>" not in req.state
 
     def test_rejects_short_state(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             JourneyStartRequest(state="X")
 
 
@@ -47,7 +47,7 @@ class TestChatRequest:
         assert "<img" not in req.message
 
     def test_rejects_empty(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             ChatRequest(message="")
 
 
@@ -57,7 +57,7 @@ class TestMythCheckRequest:
         assert req.text == "You cannot vote by mail"
 
     def test_rejects_short(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             MythCheckRequest(text="Hi")
 
 
@@ -69,7 +69,7 @@ class TestReminderSubscribeRequest:
         assert req.email == "test@example.com"
 
     def test_invalid_email(self):
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             ReminderSubscribeRequest(email="notanemail", name="John", recaptcha_token="a" * 20)
 
 

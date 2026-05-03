@@ -2,8 +2,6 @@
 
 import base64
 
-from tests.conftest import *
-
 
 class TestValidateDoc:
     def test_validate_doc_success(self, client):

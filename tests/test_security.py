@@ -1,7 +1,6 @@
 """test_security.py — Security middleware and sanitization tests."""
 
 from security import sanitize_input, validate_content_length
-from tests.conftest import *
 
 
 class TestSecurityHeaders:

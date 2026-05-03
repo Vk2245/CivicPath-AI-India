@@ -27,6 +27,9 @@ def _get_real_client_ip(request: Request) -> str:
     return request.client.host if request.client else "127.0.0.1"
 
 
+from slowapi import Limiter
+
+
 class DummyLimiter:
     def limit(self, *args, **kwargs):
         def decorator(func):
@@ -34,5 +37,5 @@ class DummyLimiter:
 
         return decorator
 
-
-limiter = DummyLimiter()
+# Re-enable the proper slowapi Limiter
+limiter = Limiter(key_func=_get_real_client_ip)
