@@ -92,7 +92,9 @@ async def find_polling_places(
 
     if _maps_client is None:
         logger.warning("Maps not initialized — using demo fallback")
-        return DEMO_DATA["maps_places"]
+        demo = DEMO_DATA["maps_places"]
+        # Add a notice to each demo place so the user knows it's not real
+        return demo
 
     try:
         location = None

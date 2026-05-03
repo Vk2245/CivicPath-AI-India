@@ -1,12 +1,12 @@
 {
-  "name": "CivicPath",
+  "name": "CivicPath India",
   "short_name": "CivicPath",
-  "description": "AI-powered personalized election journey guide",
+  "description": "AI-powered election journey guide for Indian voters",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0F1E",
-  "theme_color": "#0A0F1E",
+  "background_color": "#0B0F19",
+  "theme_color": "#0B0F19",
   "icons": [
-    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23FF9933'/><path d='M50 20 L50 80 M30 50 L70 50 M35 35 L65 65 M65 35 L35 65' stroke='%230B0F19' stroke-width='6' stroke-linecap='round'/></svg>", "sizes": "any", "type": "image/svg+xml" }
   ]
 }

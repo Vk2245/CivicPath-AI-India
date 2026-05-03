@@ -31,13 +31,13 @@ DEMO_DATA: Final[dict[str, Any]] = {
     # ═══ GOOGLE SERVICE 1: Gemini Flash — AI Chat Fallback ═══
     "gemini_chat": {
         "response": (
-            "I'm CivicPath's AI Election Assistant. Here are the key steps for voting in India:\n\n"
+            "[DEMO MODE] I'm CivicPath's AI Election Assistant. The Google Gemini API is currently unavailable or keys are missing.\n\n"
+            "Here are the key steps for voting in India:\n"
             "1. **Check Your Name** — Verify your name in the electoral roll at voters.eci.gov.in.\n"
             "2. **Register/Update via Form 6/8** — Use the Voter Helpline App or NVSP portal to register or make corrections.\n"
             "3. **Get Your EPIC Ready** — Check if you have your Electors Photo Identity Card. If not, alternatives like Aadhaar or PAN are accepted.\n"
             "4. **Find Your Polling Booth** — Download your Voter Information Slip to find your exact booth location.\n"
-            "5. **Know Your Candidate** — Research candidates using the ECI KYC app before election day.\n\n"
-            "How can I help you with your specific election preparation in Bihar or elsewhere?"
+            "5. **Know Your Candidate** — Research candidates using the ECI KYC app before election day."
         ),
         "sources": [
             "eci.gov.in",
@@ -49,7 +49,8 @@ DEMO_DATA: Final[dict[str, Any]] = {
     "gemini_myth": {
         "verdict": "myth",
         "explanation": (
-            "This is a common election myth. According to the Election Commission of India (ECI), "
+            "[DEMO MODE] This is a common election myth. The Google Gemini API is currently unavailable to verify this specific claim. "
+            "However, according to the Election Commission of India (ECI), "
             "Electronic Voting Machines (EVMs) are standalone, non-networked devices and cannot be hacked. "
             "Furthermore, VVPAT (Voter Verifiable Paper Audit Trail) provides a physical paper record to verify "
             "the electronic vote, ensuring complete transparency and accuracy in the counting process."
@@ -120,8 +121,8 @@ DEMO_DATA: Final[dict[str, Any]] = {
     },
     "maps_places": [
         {
-            "name": "Patna College",
-            "address": "Ashok Rajpath, Patna, Bihar 800005",
+            "name": "[DEMO LOCATION] Patna College",
+            "address": "[Demo fallback] Ashok Rajpath, Patna, Bihar 800005",
             "latitude": 25.6200,
             "longitude": 85.1685,
             "distance_miles": 0.8,
@@ -129,8 +130,8 @@ DEMO_DATA: Final[dict[str, Any]] = {
             "place_id": "demo_place_1",
         },
         {
-            "name": "Magadh Mahila College",
-            "address": "Gandhi Maidan Rd, Patna, Bihar 800001",
+            "name": "[DEMO LOCATION] Magadh Mahila College",
+            "address": "[Demo fallback] Gandhi Maidan Rd, Patna, Bihar 800001",
             "latitude": 25.6186,
             "longitude": 85.1408,
             "distance_miles": 1.5,
@@ -138,8 +139,8 @@ DEMO_DATA: Final[dict[str, Any]] = {
             "place_id": "demo_place_2",
         },
         {
-            "name": "A N College",
-            "address": "Boring Road, Patna, Bihar 800013",
+            "name": "[DEMO LOCATION] A N College",
+            "address": "[Demo fallback] Boring Road, Patna, Bihar 800013",
             "latitude": 25.6180,
             "longitude": 85.1153,
             "distance_miles": 2.3,

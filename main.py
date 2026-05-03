@@ -50,7 +50,7 @@ from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
-from config import STATIC_CACHE_MAX_AGE, get_settings
+from config import STATIC_CACHE_MAX_AGE, get_settings, clear_settings_cache
 from exceptions import CivicPathError
 from limiting import limiter
 from routers import chat, checklist, faq, health, journey, maps, reminders, translate
@@ -90,6 +90,21 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
       6. Google Analytics 4
     """
     logger.info("CivicPath starting — initializing 10 Google Services...")
+
+    # Force re-read of .env on every startup to pick up new keys
+    clear_settings_cache()
+    startup_settings = get_settings()
+
+    # Log which API keys are actually loaded
+    gemini_ok = bool(startup_settings.GEMINI_API_KEY)
+    maps_ok = bool(startup_settings.GOOGLE_MAPS_API_KEY)
+    gcp_ok = bool(startup_settings.GOOGLE_CLOUD_PROJECT)
+    logger.info(
+        "API Key Status: Gemini=%s | Maps=%s | GCP=%s",
+        "LOADED" if gemini_ok else "MISSING",
+        "LOADED" if maps_ok else "MISSING",
+        "LOADED" if gcp_ok else "MISSING",
+    )
 
     # Shared HTTP client for REST-based Google services
     http_client = httpx.AsyncClient(timeout=30.0)
@@ -197,3 +212,5 @@ if __name__ == "__main__":
         port=int(os.environ.get("PORT", 8000)),
         reload=settings.ENVIRONMENT == "development",
     )
+    # Server reload triggered at 2026-05-03T08:35 after pip install of googlemaps, speech, translate
+

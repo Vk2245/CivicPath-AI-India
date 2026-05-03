@@ -209,7 +209,7 @@ async def generate_chat_response(
         }
     except Exception as exc:
         logger.error(
-            "Google Gemini 1.5 Flash API call failed",
+            "Google Gemini 1.5 Flash API call failed: %s", str(exc),
             extra={"error": str(exc), "google_service": "Gemini 1.5 Flash"},
         )
         return DEMO_DATA["gemini_chat"]

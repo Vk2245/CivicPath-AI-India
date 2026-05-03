@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CivicPath — AI-powered personalized election journey guide. Understand the election process, timelines, and steps in an interactive way.">
-  <title>CivicPath — Personalized Election Journey Guide</title>
+  <meta name="description" content="CivicPath India — AI-powered, personalized election journey guide for Indian voters. Understand ECI procedures, voter registration, and polling booth locations.">
+  <title>CivicPath India — Your Election Journey Guide</title>
   <!-- Google Fonts API (Google Service #10) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0A0F1E">
+  <meta name="theme-color" content="#0B0F19">
 </head>
 <body>
   <!-- Skip Link — WCAG 2.1 AA Accessibility -->
@@ -20,23 +20,28 @@
   <!-- Header -->
   <header class="header" role="banner">
     <div class="container header-inner">
-      <div class="logo" aria-label="CivicPath Home">
-        <div class="logo-icon" aria-hidden="true">🗳️</div>
+      <div class="logo" aria-label="CivicPath India Home">
+        <div class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke: #0B0F19;"/>
+          </svg>
+        </div>
         <span>CivicPath</span>
       </div>
       <nav class="nav-links" role="navigation" aria-label="Main navigation">
         <button class="active" onclick="showSection('home')" aria-label="Home">Home</button>
         <button onclick="showSection('journey')" aria-label="My Journey">Journey</button>
-        <button onclick="showSection('chat')" aria-label="AI Assistant">AI Chat</button>
-        <button onclick="showSection('myths')" aria-label="Myth Detector">Myths</button>
-        <button onclick="showSection('maps')" aria-label="Polling Places">Maps</button>
+        <button onclick="showSection('chat')" aria-label="AI Assistant">Assistant</button>
+        <button onclick="showSection('myths')" aria-label="Fact Check">Fact Check</button>
+        <button onclick="showSection('maps')" aria-label="Polling Booths">Booths</button>
         <div class="lang-selector">
           <select class="lang-btn" id="langSelect" aria-label="Language selector" onchange="changeLanguage(this.value)">
-            <option value="en">🌐 EN</option>
-            <option value="es">🌐 ES</option>
-            <option value="zh">🌐 中文</option>
-            <option value="hi">🌐 हिन्दी</option>
-            <option value="fr">🌐 FR</option>
+            <option value="en">EN</option>
+            <option value="hi">Hindi</option>
+            <option value="bn">Bengali</option>
+            <option value="ta">Tamil</option>
+            <option value="te">Telugu</option>
+            <option value="mr">Marathi</option>
           </select>
         </div>
       </nav>
@@ -45,53 +50,70 @@
 
   <main id="main-content" role="main">
     <!-- ═══ HOME / HERO ═══ -->
-    <section id="section-home" class="active" aria-label="Welcome to CivicPath">
+    <section id="section-home" class="active" aria-label="Welcome to CivicPath India">
       <div class="container hero">
-        <h1>Your Election Journey Starts Here</h1>
-        <p class="hero-subtitle">Personalized, AI-powered guidance through every step of the voting process. From registration to casting your ballot — we've got you covered.</p>
+        <h1>Navigate Your Vote with Confidence</h1>
+        <p class="hero-subtitle">AI-powered, step-by-step guidance through the Indian election process. From voter registration to casting your ballot — we make democracy accessible.</p>
         <div class="hero-badges">
-          <span class="badge badge-amber">🤖 10 Google Services</span>
-          <span class="badge badge-blue">♿ WCAG 2.1 AA</span>
-          <span class="badge">🔒 Secure &amp; Private</span>
-          <span class="badge">🌍 10+ Languages</span>
+          <span class="badge badge-saffron">Powered by Google AI</span>
+          <span class="badge badge-blue">WCAG 2.1 AA Accessible</span>
+          <span class="badge badge-green">ECI Compliant</span>
+          <span class="badge">12+ Indian Languages</span>
         </div>
-        <div class="vote-node" aria-label="Vote — pulsing election icon">VOTE</div>
-        <div style="margin-top: 32px;">
+
+        <div class="emblem" aria-label="CivicPath emblem">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="stroke: #0B0F19;"/></svg>
+        </div>
+
+        <div class="cta-section">
           <button class="btn btn-primary btn-lg" onclick="showSection('quiz')" aria-label="Start your election journey">
-            🚀 Start Your Journey
+            Start Your Journey
           </button>
         </div>
+
         <!-- Features Grid -->
-        <div class="features-grid" style="margin-top: 60px; text-align: left;">
+        <div class="features-grid">
           <div class="card">
-            <div class="feature-icon amber" aria-hidden="true">🗺️</div>
+            <div class="feature-icon saffron" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            </div>
             <h3>Personalized Timeline</h3>
-            <p>Get a step-by-step election roadmap tailored to your state, registration status, and election type.</p>
+            <p>A step-by-step roadmap tailored to your state, registration status, and election type.</p>
           </div>
           <div class="card">
-            <div class="feature-icon blue" aria-hidden="true">🤖</div>
+            <div class="feature-icon blue" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            </div>
             <h3>AI Election Assistant</h3>
-            <p>Ask any election question and get instant, accurate answers powered by Google Gemini.</p>
+            <p>Instant, accurate answers to any election question — powered by Google Gemini.</p>
           </div>
           <div class="card">
-            <div class="feature-icon green" aria-hidden="true">🔍</div>
-            <h3>Myth Detector</h3>
-            <p>Fact-check election claims instantly. Get verdicts backed by official sources.</p>
+            <div class="feature-icon green" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3>Fact Checker</h3>
+            <p>Verify election claims instantly against official ECI sources and data.</p>
           </div>
           <div class="card">
-            <div class="feature-icon amber" aria-hidden="true">🔊</div>
+            <div class="feature-icon saffron" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+            </div>
             <h3>Voice Accessible</h3>
-            <p>Speak your questions and hear answers read aloud via Google Cloud Speech APIs.</p>
+            <p>Ask questions by voice and hear answers read aloud in your language.</p>
           </div>
           <div class="card">
-            <div class="feature-icon blue" aria-hidden="true">📍</div>
-            <h3>Polling Place Finder</h3>
-            <p>Locate your nearest polling place instantly with Google Maps integration.</p>
+            <div class="feature-icon blue" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h3>Polling Booth Finder</h3>
+            <p>Locate your nearest polling booth with Google Maps integration.</p>
           </div>
           <div class="card">
-            <div class="feature-icon green" aria-hidden="true">🌍</div>
-            <h3>10+ Languages</h3>
-            <p>Full multilingual support via Google Cloud Translation for inclusive civic education.</p>
+            <div class="feature-icon green" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+            </div>
+            <h3>12+ Indian Languages</h3>
+            <p>Full multilingual support for inclusive civic education across India.</p>
           </div>
         </div>
       </div>
@@ -117,9 +139,11 @@
 
     <!-- ═══ JOURNEY TIMELINE ═══ -->
     <section id="section-journey" style="display:none" aria-label="Your election journey timeline">
-      <div class="container" style="padding-top: 40px;">
-        <h2 style="text-align:center; margin-bottom: 8px;">Your Election Journey</h2>
-        <p style="text-align:center; margin-bottom: 32px;">Follow each step to be fully prepared for election day.</p>
+      <div class="container">
+        <div class="section-header">
+          <h2>Your Election Journey</h2>
+          <p>Follow each step to be fully prepared for election day.</p>
+        </div>
         <div class="timeline" id="timeline-container" aria-label="Election preparation timeline" role="list">
           <!-- Steps injected by JS -->
         </div>
@@ -128,67 +152,69 @@
 
     <!-- ═══ AI CHAT ═══ -->
     <section id="section-chat" style="display:none" aria-label="AI Election Assistant">
-      <div class="container" style="padding-top: 40px;">
-        <h2 style="text-align:center; margin-bottom: 24px;">AI Election Assistant</h2>
+      <div class="container">
+        <div class="section-header">
+          <h2>Election Assistant</h2>
+          <p>Ask any question about voting in India. Powered by Google Gemini.</p>
+        </div>
         <div class="chat-container">
           <div class="chat-messages" id="chat-messages" aria-live="polite" aria-label="Chat messages">
             <div class="chat-message assistant">
-              <div class="chat-avatar" aria-hidden="true">🗳️</div>
+              <div class="chat-avatar" aria-hidden="true">CP</div>
               <div class="chat-bubble">
-                Hi! I'm your CivicPath AI assistant, powered by Google Gemini. Ask me anything about the election process — registration, deadlines, ID requirements, or how to vote. I'm here to help! 🇺🇸
+                Welcome to CivicPath. I can help you with voter registration, EPIC requirements, polling booth locations, EVM procedures, and more. What would you like to know?
               </div>
             </div>
           </div>
           <div class="chat-input-area">
-            <input type="text" class="chat-input" id="chat-input" placeholder="Ask about elections..." aria-label="Type your election question" onkeydown="if(event.key==='Enter')sendChat()">
-            <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Voice input">🎤</button>
+            <input type="text" class="chat-input" id="chat-input" placeholder="Ask about Indian elections..." aria-label="Type your election question" onkeydown="if(event.key==='Enter')sendChat()">
+            <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Voice input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+            </button>
             <button class="btn btn-primary" onclick="sendChat()" aria-label="Send message">Send</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ MYTH DETECTOR ═══ -->
-    <section id="section-myths" style="display:none" aria-label="Election Myth Detector">
-      <div class="container" style="padding-top: 40px; max-width: 700px;">
-        <h2 style="text-align:center; margin-bottom: 8px;">🔍 Election Myth Detector</h2>
-        <p style="text-align:center; margin-bottom: 24px;">Paste any election claim and get an instant fact-check powered by Google Gemini AI.</p>
+    <!-- ═══ FACT CHECK ═══ -->
+    <section id="section-myths" style="display:none" aria-label="Election Fact Checker">
+      <div class="container" style="max-width: 640px;">
+        <div class="section-header">
+          <h2>Election Fact Checker</h2>
+          <p>Paste any election claim and get an instant verdict backed by official sources.</p>
+        </div>
         <div class="card">
-          <textarea class="form-input" id="myth-input" rows="3" placeholder="e.g., 'You can only vote on Election Day'" aria-label="Enter claim to fact-check" style="resize:vertical;"></textarea>
-          <div style="margin-top: 16px; text-align: right;">
-            <button class="btn btn-primary" onclick="checkMyth()" aria-label="Check this claim">🔍 Fact Check</button>
+          <textarea class="form-input" id="myth-input" rows="3" placeholder="e.g., EVMs can be hacked remotely" aria-label="Enter claim to fact-check" style="resize:vertical;"></textarea>
+          <div style="margin-top: 14px; text-align: right;">
+            <button class="btn btn-primary" onclick="checkMyth()" aria-label="Verify this claim">Verify Claim</button>
           </div>
           <div id="myth-result" aria-live="polite"></div>
         </div>
       </div>
     </section>
 
-    <!-- ═══ POLLING PLACES MAP ═══ -->
-    <section id="section-maps" style="display:none" aria-label="Polling Place Finder">
-      <div class="container" style="padding-top: 40px; max-width: 700px;">
-        <h2 style="text-align:center; margin-bottom: 8px;">📍 Find Your Polling Place</h2>
-        <p style="text-align:center; margin-bottom: 24px;">Powered by Google Maps Places API</p>
+    <!-- ═══ POLLING BOOTH FINDER ═══ -->
+    <section id="section-maps" style="display:none" aria-label="Polling Booth Finder">
+      <div class="container" style="max-width: 640px;">
+        <div class="section-header">
+          <h2>Find Your Polling Booth</h2>
+          <p>Powered by Google Maps Places API</p>
+        </div>
         <div class="card">
           <div class="form-group">
-            <label class="form-label" for="address-input">Your Address</label>
-            <input type="text" class="form-input" id="address-input" placeholder="Enter your address..." aria-label="Enter your address to find polling places">
+            <label class="form-label" for="address-input">Your Address or Locality</label>
+            <input type="text" class="form-input" id="address-input" placeholder="Enter your address in India..." aria-label="Enter your address to find polling booths">
           </div>
-          <div style="display: flex; gap: 12px;">
-            <button class="btn btn-primary" onclick="findPollingPlaces()" aria-label="Search for polling places">🔍 Find Places</button>
-            <button class="btn btn-secondary" onclick="useMyLocation()" aria-label="Use my current location">📍 Use My Location</button>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="findPollingPlaces()" aria-label="Search for polling booths">Search</button>
+            <button class="btn btn-secondary" onclick="useMyLocation()" aria-label="Use my current location">Use My Location</button>
           </div>
-          <div id="polling-results" aria-live="polite" style="margin-top: 24px;"></div>
+          <div id="polling-results" aria-live="polite" style="margin-top: 20px;"></div>
         </div>
       </div>
     </section>
   </main>
-
-  <aside class="sidebar-tips" role="complementary" aria-label="Quick Election Tips" style="display:none;">
-    <div class="container">
-      <h3>Quick Tips</h3>
-      <p>Remember to check your registration status at least 30 days before election day.</p>
-    </div>
-  </aside>
 
   <!-- Footer -->
   <footer class="footer" role="contentinfo">
@@ -196,10 +222,10 @@
       <div class="footer-links">
         <a href="/docs" aria-label="API Documentation">API Docs</a>
         <a href="#" onclick="showSection('chat')" aria-label="Get Help">Help</a>
-        <a href="https://github.com" aria-label="GitHub Repository">GitHub</a>
+        <a href="https://github.com/Vk2245/CivicPath-AI-India" aria-label="GitHub Repository">GitHub</a>
       </div>
-      <p>CivicPath — because democracy deserves better UX.</p>
-      <p style="margin-top: 4px;">Non-partisan · Factual · Open source · Built for every voter.</p>
+      <p>CivicPath India &mdash; Making democracy accessible through technology.</p>
+      <p style="margin-top: 4px;">Non-partisan &middot; Factual &middot; Open Source &middot; Built for every Indian voter.</p>
     </div>
   </footer>
 

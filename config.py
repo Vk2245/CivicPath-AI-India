@@ -100,6 +100,14 @@ def get_settings() -> Settings:
     return Settings()
 
 
+def clear_settings_cache() -> None:
+    """Clear the settings cache so the next call re-reads .env.
+
+    Useful during server startup to guarantee fresh credentials.
+    """
+    get_settings.cache_clear()
+
+
 # ═══ APPLICATION CONSTANTS (zero magic numbers) ═══
 
 # Rate limiting constants
